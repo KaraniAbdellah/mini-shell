@@ -39,7 +39,7 @@ int main(int *argc, char **argv) {
 }
 
 
-//execlp("cd", "cd", "tt", NULL);
+// execlp("cd", "cd", "tt", NULL);
 
 
 /*
@@ -52,6 +52,7 @@ int main(int *argc, char **argv) {
 */
 
 
+// two commands [ ls & cd ];
 
 
 
@@ -59,8 +60,7 @@ int main(int *argc, char **argv) {
 
 
 
-
-
+// Another Functions
 // execlp("ls", "ls", "-l", NULL);
 // execl("\bin\ls", "ls", "-l", NULL);
 
