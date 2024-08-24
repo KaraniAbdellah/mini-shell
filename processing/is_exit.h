@@ -1,10 +1,18 @@
 #ifndef PROCESSING
 #define PROCESSING
+
+
 #include "../reading/read_tokenize.h"
 
 
-    void is_exit(list *head);
+
+
+    int is_file_exit(char *fileName);
+    int is_executable_in_command(char *cmd);
+    int is_buit_in_command(char *cmd);
+    int process_cmds(list *head);
 
 
 
 #endif
+
