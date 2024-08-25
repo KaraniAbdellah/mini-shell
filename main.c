@@ -4,15 +4,26 @@
 #include "execution/execution_cmd/exec.h"
 #include "execution/built_in_cmd/built.h"
 #include "handling/handle.h"
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+
 
 
 int main() {
     
     
+    
+    
+
+
+    
+    
     // Reading Inputs && Store In List
-    list *head = read_input();
-    printf("In Reading : ");
-    print_list(head);
+    
+    // printf("In Reading : ");
+    // print_list(head);
     
     
     
@@ -21,12 +32,37 @@ int main() {
     
     
     
-    printf("In Processing : ");
-    process_cmds(head);
+    // printf("In Processing : \n");
+    
+    
+    // printf("Show Handling The Result : ");
+    // showTheResult(head);
+    
+
+    while (1) {
+    
+        pid_t pros = fork();
+        
+        if (pros == 0) {
+        
+            list *head = read_input();
+            
+            showTheResult(head);
+            exit(0);
+            
+        } else if (pros > 0) wait(NULL);
+        else perror("fork");
+    
+    }
     
     
     
-    showTheResult(head);
+
+    
+    
+    
+    
+    
     
     
     
@@ -34,47 +70,6 @@ int main() {
     
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

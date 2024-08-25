@@ -12,6 +12,7 @@ typedef struct list {
     char word[MAX_WORD];
     struct list *next;
     struct list *prev;
+    int nbr_words;
 } list;
 
 
@@ -21,7 +22,7 @@ typedef struct list {
     void tokenize_input(char *input, list **head);
     void insert_at_list(list **head, char *word);
     void print_list(list *head);
-
+    int get_nbr_words(list *head);
 
 
 

@@ -28,7 +28,7 @@ int is_file_exit(char *fileName) {
 // Check If This Is A Buit In Command
 int is_buit_in_command(char *cmd) {
     
-    char *cmds[5] = {"cd", "exit", "help", "echo", NULL};
+    char *cmds[5] = {"cd", "exit", "help", NULL};
     
     int i = 0;
     char *p = cmds[i];
@@ -83,10 +83,9 @@ int is_executable_in_command(char *cmd) {
 
 
 
-int process_cmds(list *head) {
+int process_cmds(char *cmd) {
     
     // Check The Type Of Command
-    char *cmd = head->word;
     if (is_executable_in_command(cmd)) {
         return 1;
     }

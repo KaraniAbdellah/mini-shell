@@ -70,7 +70,18 @@ void print_list(list *head) {
 }
 
 
-
+int get_nbr_words(list *head) {
+    
+    int nbr_words = 0;
+    list *temp = head;
+    while (temp != NULL) {
+        temp = temp->next;
+        nbr_words++;
+    }
+    
+    return nbr_words;
+    
+}
 
 
 
