@@ -13,7 +13,7 @@
 
 void built_in_cmd(list *head) {
     
-    if (head == NULL || head == NULL) {
+    if (head == NULL && head == NULL) {
         fprintf(stderr, "No command provided.\n");
         return;
     }
@@ -32,7 +32,7 @@ void built_in_cmd(list *head) {
         
         help_cmd(head);
         
-    } else  fprintf(stderr, "%s: Unknown built-in command.\n", cmd);
+    };
     
 }
 
@@ -40,7 +40,7 @@ void built_in_cmd(list *head) {
 
 void exit_cmd() {
     if (kill(getppid(), SIGINT) == -1) {
-        perror("kill");
+        exit(0);
     }
 }
 
@@ -56,37 +56,41 @@ char *get_after_command(list *head) {
         temp = temp->next;
     }
     
-    char *command = malloc(sizeof(char) * command_length);
-    command[0] = '\0';
-    temp = head->next;
-    while (temp != NULL) {
+    if (command_length != 0) {
         
-        strcat(command, temp->word);
-        if (temp->next != NULL) strcat(command, " ");
-        temp = temp->next;
+        char *command = malloc(sizeof(char) * (command_length + 1));
+        command[0] = '\0';
+        temp = head->next;
+        while (temp != NULL) {
+            
+            strcat(command, temp->word);
+            if (temp->next != NULL) strcat(command, " ");
+            temp = temp->next;
+            
+        }
         
-    }
+        return command;
+        
+    } else return NULL;
     
-    
-    return command;
     
 }
 
 
 int cd_cmd(list *head) {
     
-    char *command = get_after_command(head);
+    char *path = get_after_command(head);
      
-     if (command == NULL && strlen(command) == 0) {
+     if (path == NULL || strlen(path) == 0) {
      
         fprintf(stderr, "cd: No path specified.\n");
-        free(command);
+        free(path);
         return 1;
         
      }
      
-    command[strcspn(command, "\n")] = 0;
-    if (chdir(command) != 0) {
+    path[strcspn(path, "\n")] = 0;
+    if (chdir(path) != 0) {
         
         perror("cd");
         return 1;
@@ -100,7 +104,7 @@ int cd_cmd(list *head) {
         perror("getcwd");
     }
     
-    free(command);
+    free(path);
     
     return 0;
     
@@ -112,13 +116,11 @@ void help_cmd(list *head) {
     
     char *command = get_after_command(head);
     char buffer[256];
-    if (command == NULL && strlen(command) != 0) {
-        snprintf(buffer, sizeof(buffer), "bash -c 'help' %s", command);
-    } else {
+    if (command == NULL) {
         snprintf(buffer, sizeof(buffer), "bash -c 'help'");
-    }
+    } else 
+        snprintf(buffer, sizeof(buffer), "bash -c 'help %s'", command);
     
-    printf("command = %s and %ld and buffer = %s\n\n", command, strlen(command), buffer);
     if (system(buffer) == -1) {
         perror("help");
     }

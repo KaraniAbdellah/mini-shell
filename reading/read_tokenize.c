@@ -2,7 +2,7 @@
 #include "read_tokenize.h"
 #include <string.h>
 #include <stdlib.h>
-
+#include <unistd.h>
 
 
 
@@ -12,7 +12,13 @@ list *read_input() {
     
     list *head = NULL;
     char input[MAX_INPUT];
-    printf("MY_SHELL$ ");
+    char cwd[256];
+    if (getcwd(cwd, sizeof(cwd)) == NULL) {
+        
+        perror("getcwd");
+        
+    }
+    printf("%s$ ", cwd);
     scanf("%[^\n]", input);
     
     tokenize_input(input, &head);
