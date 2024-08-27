@@ -39,25 +39,9 @@ int main() {
     // showTheResult(head);
     
 
-    while (1) {
-    
-        pid_t pros = fork();
-        
-        if (pros == 0) {
-        
-            list *head = read_input();
-            
-            showTheResult(head);
-            exit(0);
-            
-        } else if (pros > 0) wait(NULL);
-        else perror("fork");
-    
-    }
-    
-    
-    
 
+    list *head = read_input();
+    fn(head);
     
     
     

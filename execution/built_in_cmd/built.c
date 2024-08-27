@@ -32,14 +32,22 @@ void built_in_cmd(list *head) {
         
         help_cmd(head);
         
-    };
+    } else if (strcmp("setenv", cmd) == 0) {
+        
+        set_env(head);
+        
+    } else if (strcmp("unsetenv", cmd) == 0) {
+        
+        unset_env(head);
+        
+    }
     
 }
 
 
 
 void exit_cmd() {
-    if (kill(getppid(), SIGINT) == -1) {
+    if (kill(getpid(), SIGINT) == -1) {
         exit(0);
     }
 }
@@ -80,13 +88,21 @@ char *get_after_command(list *head) {
 int cd_cmd(list *head) {
     
     char *path = get_after_command(head);
-     
      if (path == NULL || strlen(path) == 0) {
-     
-        fprintf(stderr, "cd: No path specified.\n");
-        free(path);
-        return 1;
-        
+        char cwd[256];
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+            int n = nbr_slash(cwd);
+            int size = (n * 2) + n + 1;
+            char *new_dir = (char *) malloc(sizeof(char) * size);
+            for (int i = 0; i < size; i++) {
+                new_dir[i] = '.';
+                if (i % 3 == 0) new_dir[i]  = '/';
+            }
+            new_dir[size] = '\0';
+            path = new_dir;
+        } else {
+            perror("getcwd");
+        }
      }
      
     path[strcspn(path, "\n")] = 0;
@@ -95,13 +111,6 @@ int cd_cmd(list *head) {
         perror("cd");
         return 1;
         
-    }
-    
-    char cwd[256];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        printf("Your Current Directry Is %s\n", cwd);
-    } else {
-        perror("getcwd");
     }
     
     free(path);
@@ -131,11 +140,45 @@ void help_cmd(list *head) {
 
 
 
+void set_env(list *head) {
+    
+    char *path = get_after_command(head);
+    
+    char *first_arg = strtok(path, " ");
+    char *second_arg = strtok(NULL, " ");
+    
+    if (setenv(first_arg, second_arg, 1) != 0) {
+        
+        perror("setenv");
+        
+    }
+    
+}
+
+
+void unset_env(list *head) {
+    
+    char *path = get_after_command(head);
+    
+    char *first_arg = strtok(path, " ");
+    
+    unsetenv(first_arg);
+    
+}
 
 
 
-
-
+int nbr_slash(char *cwd) {
+    
+    int count = 0;
+    int lenght = strlen(cwd);
+    for (int i = 0; i < lenght; i++) {
+        
+        if (cwd[i] == '/') count++;
+        
+    }
+    return count;
+}
 
 
 

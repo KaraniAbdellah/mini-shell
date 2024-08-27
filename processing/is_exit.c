@@ -28,7 +28,7 @@ int is_file_exit(char *fileName) {
 // Check If This Is A Buit In Command
 int is_buit_in_command(char *cmd) {
     
-    char *cmds[5] = {"cd", "exit", "help", NULL};
+    char *cmds[6] = {"cd", "exit", "help", "setenv", "unsetenv", NULL};
     
     int i = 0;
     char *p = cmds[i];

@@ -20,7 +20,7 @@ list *read_input() {
     }
     printf("%s$ ", cwd);
     scanf("%[^\n]", input);
-    
+    getchar();
     tokenize_input(input, &head);
     
     return head;

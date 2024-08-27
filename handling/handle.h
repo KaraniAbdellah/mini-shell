@@ -14,7 +14,7 @@
 
 
     void showTheResult(list *head);
-    
+    void fn(list *head);
 
 
 
